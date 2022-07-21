@@ -1,0 +1,47 @@
+\documentclass[tikz]{standalone}
+\usepackage[brazil]{babel}
+\usepackage{textcomp}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+\usetikzlibrary{positioning, arrows.meta, fit}
+
+
+\tikzstyle{dataflow}=[thick, -Stealth]
+\begin{tikzpicture}
+\path
+	node(x){$x$}
+	node[draw, below=of x](fmax){\texttt{max}}
+	(x) edge[dataflow] (fmax)
+	
+	node[left=of fmax](imin){$x_{\texttt{min}}$}
+	(imin) edge[dataflow] (fmax)
+	
+	node[draw, below=of fmax](fmin){\texttt{min}}
+	(fmax) edge[dataflow] (fmin)
+	node[left=of fmin](imax){$x_{\texttt{max}}$}
+	(imax) edge[dataflow] (fmin)
+	
+	node[below=of fmin](result){\texttt{clamp $x$ $x_{\texttt{min}}$ $x_{\texttt{max}}$}}
+	(fmin) edge[dataflow] (result)
+
+
+	node[draw, dashed, black!50, fit=(imin) (fmax), rounded corners=.25cm](func1){}
+	node[right=0.5cm of func1](exp_func1){$f_{\texttt{1}}$}
+	(func1) edge[->] (exp_func1)
+
+	node[draw, dashed, black!50, fit=(imax) (fmin), rounded corners=.25cm](func2){}
+	node[right=0.5cm of func2](exp_func2){$f_{\texttt{2}}$}
+	(func2) edge[->] (exp_func2)
+	
+	node[draw, thick, loosely dashed, black!25, fit=(func1) (func2), rounded corners=0.5cm](composed){}
+	node[right=1cm of composed](exp_composed){$f_{\texttt{2}} \circ f_{\texttt{1}}$}
+	(composed) edge[->] (exp_composed)
+	
+;
+\end{tikzpicture}
+
+
+\end{document}
+

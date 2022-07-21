@@ -1,0 +1,35 @@
+\documentclass[tikz]{standalone}
+\usepackage[brazil]{babel}
+\usepackage{textcomp}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+\usetikzlibrary{positioning, arrows.meta}
+
+
+\tikzstyle{dataflow}=[thick, -Stealth]
+\begin{tikzpicture}
+\path
+	node(x){$x$}
+	node[draw, below=of x](fmax){\texttt{max}}
+	(x) edge[dataflow] (fmax)
+	node[left=of fmax](imin){$x_{\texttt{min}}$}
+	(imin) edge[dataflow] (fmax)
+	
+
+	node[draw, below=of fmax](fmin){\texttt{min}}
+	(fmax) edge[dataflow] (fmin)
+	
+	node[left=of fmin](imax){$x_{\texttt{max}}$}
+	(imax) edge[dataflow] (fmin)
+	
+	node[below=of fmin](result){\texttt{clamp $x$ $x_{\texttt{min}}$ $x_{\texttt{max}}$}}
+	(fmin) edge[dataflow] (result)
+
+;
+\end{tikzpicture}
+
+
+\end{document}
+
