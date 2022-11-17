@@ -1,6 +1,9 @@
 
 .PHONY: clean
 
+out:
+	mkdir $@
+
 %.png: out/%.pdf
 	convert -alpha off -background white -density 300 $< $@
 
